@@ -1,5 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2021-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -89,7 +90,7 @@ UniValue getinfo(const JSONRPCRequest& request)
 #endif
     obj.pushKV("blocks",        (int)chainActive.Height());
     obj.pushKV("timeoffset",    GetTimeOffset());
-    if(g_connman)
+    if (g_connman)
         obj.pushKV("connections",   (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL));
     obj.pushKV("proxy",         (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : string()));
     obj.pushKV("difficulty",    (double)GetDifficulty());
@@ -454,6 +455,25 @@ UniValue setmocktime(const JSONRPCRequest& request)
     return NullUniValue;
 }
 
+UniValue getmocktime(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 0)
+        throw runtime_error(
+            "getmocktime\n"
+            "\nGet the current mocktime (-regtest only)\n"
+            "Note: this is an asynchronous read, and does not take into account any\n"
+            "setmocktime calls that are pending."
+            "\nResult:\n"
+            "\"timestamp\"          (int64) The current mocktime (0 = no mocktime is set)\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getmocktime", "")
+            + HelpExampleRpc("getmocktime", "")
+        );
+
+    UniValue result(GetMockTime());
+    return result;
+}
+
 static UniValue RPCLockedMemoryInfo()
 {
     LockedPool::Stats stats = LockedPoolManager::Instance().stats();
@@ -521,6 +541,7 @@ static const CRPCCommand commands[] =
 
     /* Not shown in help */
     { "hidden",             "setmocktime",            &setmocktime,            true,  {"timestamp"}},
+    { "hidden",             "getmocktime",            &getmocktime,            true,  {}},
     { "hidden",             "echo",                   &echo,                   true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
     { "hidden",             "echojson",               &echo,                  true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
 };

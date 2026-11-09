@@ -7,7 +7,7 @@ NO_QT ?=
 NO_WALLET ?=
 NO_UPNP ?=
 AVX2 ?=
-FALLBACK_DOWNLOAD_PATH ?= https://bitcoincore.org/depends-sources
+FALLBACK_DOWNLOAD_PATH ?= https://depends.dogecoincore.org
 
 BUILD = $(shell ./config.guess)
 HOST ?= $(BUILD)
@@ -15,7 +15,7 @@ PATCHES_PATH = $(BASEDIR)/patches
 BASEDIR = $(CURDIR)
 HASH_LENGTH:=11
 DOWNLOAD_CONNECT_TIMEOUT:=10
-DOWNLOAD_RETRIES:=3
+DOWNLOAD_RETRIES:=5
 HOST_ID_SALT ?= salt
 BUILD_ID_SALT ?= salt
 

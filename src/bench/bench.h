@@ -5,12 +5,15 @@
 #ifndef BITCOIN_BENCH_BENCH_H
 #define BITCOIN_BENCH_BENCH_H
 
-#include <map>
-#include <string>
+#include <cstdint>                               // for uint64_t
 
-#include <boost/function.hpp>
-#include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/stringize.hpp>
+#include <functional>                            // for std::function
+#include <boost/preprocessor/cat.hpp>            // for BOOST_PP_CAT
+#include <boost/preprocessor/stringize.hpp>      // for BOOST_PP_STRINGIZE
+
+#include <limits>                                // for numeric_limits
+#include <map>                                   // for map
+#include <string>                                // for string
 
 // Simple micro-benchmarking framework; API mostly matches a subset of the Google Benchmark
 // framework (see https://github.com/google/benchmark)
@@ -33,7 +36,7 @@ static void CODE_TO_TIME(benchmark::State& state)
 BENCHMARK(CODE_TO_TIME);
 
  */
- 
+
 namespace benchmark {
 
     class State {
@@ -59,7 +62,7 @@ namespace benchmark {
         bool KeepRunning();
     };
 
-    typedef boost::function<void(State&)> BenchFunction;
+    typedef std::function<void(State&)> BenchFunction;
 
     class BenchRunner
     {

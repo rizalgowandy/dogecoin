@@ -12,9 +12,8 @@ or look for work that needs doing, please see:
 
 Dogecoin Core's default branch is intentionally a stable release, so that anyone
 downloading the code and compiling it gets a stable release. Active development
-occurs on branches named after the version they are targeting, for example the
-1.14.4 branch is named `1.14.4-dev`. When raising PRs, please raise against the
-relevant development branch and **not** against the `master` branch.
+occurs on the `master` branch. When raising PRs, please raise them against
+`master`.
 
 ## Contributor Workflow
 
@@ -111,6 +110,19 @@ releases will automatically benefit from these.
 When refactoring Dogecoin-specific code, please keep refactoring requests short,
 low complexity and easy to verify.
 
+### Experimental features and optimizations
+
+In some cases where a pull request introduces a new feature or optimization,
+reviewers or maintainers can request the feature to be introduced as an
+experimental-only feature, meaning that the feature will not be released in
+provided binaries but will be available for self-compilation for those who
+wish to test it. Experimental features are still expected to be complete and
+the process to be followed for all contribution guidelines as outlined in this
+document.
+
+For more information, see the
+[experimental feature documentation](./doc/experiments.md)
+
 
 ## "Decision Making" Process
 
@@ -144,6 +156,7 @@ approval and merge:
 
 - Consensus rule changes (through softfork or otherwise)
 - Policy changes
+- Maturing experimental features into production
 
 While each case will be different, one should be prepared to expend more time
 and effort than for other kinds of patches because of increased peer review
@@ -168,6 +181,25 @@ Where a patch set proposes to change the Dogecoin consensus, it must have been
 discussed extensively, be accompanied by widely discussed documentation and have
 a generally widely perceived technical consensus of being a worthwhile change,
 based on the judgement of the maintainers.
+
+
+### Merging pull requests
+
+Maintainers can only merge pull requests after any maintainer, other than the
+author of a pull request, has approved the code according to the decision
+making process outlined above.
+
+Maintainers must keep pull requests open for at least 24 hours after approval
+to merge is given, to allow anyone to voice a concern that may have been missed
+in review, or request more time to investigate a suspected issue. If a situation
+arises where more time has been requested but cannot be granted, at maintainer
+discretion, a new issue or pull request should be opened to address the defect
+or discuss improved alternatives. Requests for time and maintainer decision
+making are expected to be clearly documented on the pull request discussion on
+Github.
+
+Maintenance tasks and time-critical patches can be exempted from this rule if
+these are clearly marked as such, at maintainer discretion.
 
 ## Copyright
 

@@ -30,6 +30,11 @@ With the /notxdetails/ option JSON response will only contain the transaction ha
 
 Given a block hash: returns <COUNT> amount of blockheaders in upward direction.
 
+#### Blockhash by height
+ `GET /rest/blockhashbyheight/<HEIGHT>.<bin|hex|json>`
+
+ Given a height: returns hash of block in best-block-chain at height provided.
+
 ####Chaininfos
 `GET /rest/chaininfo.json`
 
@@ -43,7 +48,7 @@ Only supports JSON as output format.
 * verificationprogress : (numeric) estimate of verification progress [0..1]
 * chainwork : (string) total amount of work in active chain, in hexadecimal
 * pruned : (boolean) if the blocks are subject to pruning
-* pruneheight : (numeric) heighest block available
+* pruneheight : (numeric) highest block available
 * softforks : (array) status of softforks in progress
 
 ####Query UTXO set
@@ -95,4 +100,4 @@ Only supports JSON as output format.
 
 Risks
 -------------
-Running a web browser on the same node with a REST enabled dogecoind can be a risk. Accessing prepared XSS websites could read out tx/block data of your node by placing links like `<script src="http://127.0.0.1:8332/rest/tx/1234567890.json">` which might break the nodes privacy.
+Running a web browser on the same node with a REST enabled dogecoind can be a risk. Accessing prepared XSS websites could read out tx/block data of your node by placing links like `<script src="http://127.0.0.1:8332/rest/tx/1234567890.json">` which might break the node's privacy.

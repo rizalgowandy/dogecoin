@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,6 +35,10 @@ QString PeerTools::ManagePeer(QString type, QString peer)
 {
     std::string peerAddress = peer.toStdString();
 
+    if (peerAddress.size() > 256) {
+      return tr("Error: Node address is invalid");
+    }
+
     if(!g_connman)
         return tr("Error: Peer-to-peer functionality missing or disabled");
 
@@ -47,7 +52,7 @@ QString PeerTools::ManagePeer(QString type, QString peer)
     if (type == "add")
     {
         if(!g_connman->AddNode(peerAddress))
-            return tr("Error: Node already added");
+            return tr("Error: Unable to add node");
     }
     else if(type == "remove")
     {
@@ -82,7 +87,7 @@ QString PeerTools::GetPort()
 }
 
 /** Add Peer Dialog */
-AddPeerDialog::AddPeerDialog(QWidget *parent) : 
+AddPeerDialog::AddPeerDialog(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AddPeerDialog)
 {
@@ -90,7 +95,7 @@ AddPeerDialog::AddPeerDialog(QWidget *parent) :
 
     ui->peerPort->setValidator( new QIntValidator(1, 65535, this) );
 
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_addPeer_clicked()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_addPeerClicked()));
 }
 
 AddPeerDialog::~AddPeerDialog()
@@ -98,19 +103,19 @@ AddPeerDialog::~AddPeerDialog()
     delete ui;
 }
 
-void AddPeerDialog::on_addPeer_clicked()
+void AddPeerDialog::on_addPeerClicked()
 {
     QString address = ui->peerAddress->text();
     QString port = ui->peerPort->text();
     QString data = "";
 
-    if(address.isEmpty()) 
+    if(address.isEmpty())
     {
         QMessageBox::critical(this, tr("Add Peer"), tr("Please enter an address."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
-    if(port.isEmpty()) 
+    if(port.isEmpty())
     {
         port = PeerTools::GetPort();
         ui->peerPort->setText(port);
@@ -129,7 +134,7 @@ void AddPeerDialog::on_addPeer_clicked()
 }
 
 /** Add Test Peer Dialog */
-TestPeerDialog::TestPeerDialog(QWidget *parent) : 
+TestPeerDialog::TestPeerDialog(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestPeerDialog)
 {
@@ -137,7 +142,7 @@ TestPeerDialog::TestPeerDialog(QWidget *parent) :
 
     ui->peerPort->setValidator( new QIntValidator(1, 65535, this) );
 
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_testPeer_clicked()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_testPeerClicked()));
 }
 
 TestPeerDialog::~TestPeerDialog()
@@ -145,19 +150,19 @@ TestPeerDialog::~TestPeerDialog()
     delete ui;
 }
 
-void TestPeerDialog::on_testPeer_clicked()
+void TestPeerDialog::on_testPeerClicked()
 {
     QString address = ui->peerAddress->text();
     QString port = ui->peerPort->text();
     QString data = "";
 
-    if(address.isEmpty()) 
+    if(address.isEmpty())
     {
         QMessageBox::critical(this, tr("Test Peer"), tr("Please enter an address."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
-    if(port.isEmpty()) 
+    if(port.isEmpty())
     {
         port = PeerTools::GetPort();
         ui->peerPort->setText(port);

@@ -1,20 +1,61 @@
-Fedora build dependencies
---------------------------
+Fedora build guide
+------------------
 
-***NOTE: This documentation is outdated and needs to be updated***
+**Last tested with:** master (as of e1c3c37)
+**Tested on:** Fedora 43 ARM64
 
-Build requirements:
+### Build requirements
 
-    sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel
+```sh
+sudo dnf install gcc-c++ libtool which diffutils make autoconf automake \
+                 openssl-devel libevent-devel boost-devel libdb-cxx-devel
+```
+### Optional elements
 
-Optional:
+#### MiniUPNP
 
-    sudo dnf install miniupnpc-devel
+Useful when your node is running behind a NAT router.
 
-To build with Qt 5 (recommended) you need the following:
+```sh
+sudo dnf install miniupnpc-devel
+```
 
-    sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel
+#### ZeroMQ
 
-libqrencode (optional) can be installed with:
+```sh
+sudo dnf install zeromq-devel
+```
 
-    sudo dnf install qrencode-devel
+#### GUI requirements
+
+To build the GUI with Qt 5 you need the following:
+
+```sh
+sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel qrencode-devel
+``` 
+
+### Build instructions
+
+From the root of the repository, run:
+
+```sh
+./autogen.sh
+./configure --without-gui
+make
+```
+
+This builds `dogecoind` and `dogecoin-cli`.
+
+To also build the Qt GUI (`dogecoin-qt`), install the GUI requirements above and run:
+
+```sh
+./autogen.sh
+./configure --with-gui
+make
+```
+
+Install binaries system-wide (optional):
+
+```sh
+sudo make install
+```

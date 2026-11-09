@@ -8,6 +8,7 @@ src/dogecoin-tx
 src/test/test_dogecoin
 src/test/test_dogecoin_fuzzy
 src/qt/test/test_dogecoin-qt
+src/bench/bench_dogecoin
 
 # autoreconf
 Makefile.in
@@ -49,13 +50,13 @@ src/qt/test/moc*.cpp
 .libs
 .*.swp
 *.*~*
+*~
 *.bak
 *.rej
 *.orig
 *.pyc
 *.o
 *.o-*
-*.patch
 *.a
 *.pb.cc
 *.pb.h
@@ -70,6 +71,10 @@ src/qt/test/moc*.cpp
 #libtool object files
 *.lo
 *.la
+
+# ignore only unwanted patches
+*.patch
+!depends/patches/**/*.patch
 
 # Compilation and Qt preprocessor part
 *.qm
